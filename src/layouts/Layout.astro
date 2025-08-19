@@ -69,12 +69,15 @@ const headersFiltered = headers.filter((header) => header.lang === lang);
                 </div>
             </header>
 		    <slot />
-            <footer class="w-full flex flex-col items-center justify-center p-4 border-t-[0.5px] border-gray-500">
-                <p class="text-center text-dark/60 dark:text-gray-400 font-sora text-xs">
-                    {
-                        lang === "en" ? "Made with ❤️ by Sebastian Marat Urdanegui Bisalaya" : "Hecho con ❤️ por Sebastian Marat Urdanegui Bisalaya"
-                    }
+            <footer class="w-full flex flex-row items-center justify-between py-4 border-t-[0.5px] border-gray-500">
+                <p class="text-left text-dark/60 dark:text-gray-400 font-sora text-xs w-full">
+                    Sebastian Marat Urdanegui Bisalaya (@sebasurdanegui)
                 </p>
+                <a href="https://github.com/SebastianUrdaneguiBisalaya/sebastian-urdanegui" target="_blank" class="text-right text-dark/60 dark:text-gray-400 font-sora text-xs w-full cursor-pointer hover:underline hover:text-dark dark:hover:text-white/90">
+                    {
+                        lang === "en" ? "Code" : "Código"
+                    }
+                </a>
             </footer>
         </div>
 	</body>
