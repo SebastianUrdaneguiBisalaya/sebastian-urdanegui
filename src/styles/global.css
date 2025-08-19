@@ -2,8 +2,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap");
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
     --font-sora: "Sora", sans-serif;
     --font-reddit: "Reddit Sans", sans-serif;
     --color-dark: #1c1c1c;
+    --breakpoint-xs: 31.875rem;
 }
