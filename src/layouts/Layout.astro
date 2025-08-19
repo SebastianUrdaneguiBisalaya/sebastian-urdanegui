@@ -5,8 +5,7 @@ const lang = Astro.currentLocale;
 const currentPath = Astro.url.pathname.replace(`/${lang}`, "");
 const newpathES = `/es${currentPath}`;
 const newpathEN = `${currentPath}`;
-import { headers } from "@constants/data";
-const headersFiltered = headers.filter((header) => header.lang === lang);
+import Navbar from "@components/navbar.tsx";
 ---
 
 <html lang={lang} class="dark">
@@ -56,17 +55,7 @@ const headersFiltered = headers.filter((header) => header.lang === lang);
                         </a>
                     </div>
                 </div>
-                <div class="flex flex-row items-center justify-start xs:justify-center gap-4 w-full border-b-[0.5px] border-gray-500 overflow-x-auto">
-                    {
-                        headersFiltered.map((header) => {
-                            return (
-                            <a href={header.url} class="shrink-0 flex flex-col items-center justify-center text-sm hover:bg-dark/5 dark:hover:bg-white/20 cursor-pointer group">
-                                <span class="font-reddit text-black/60 dark:text-gray-300 text-center text-sm p-4 group-hover:text-dark dark:group-hover:text-white">{header.content}</span>
-                            </a>
-                            )
-                        })
-                    }
-                </div>
+                <Navbar lang={lang as string} client:load />
             </header>
 		    <slot />
             <footer class="w-full flex flex-row items-center justify-between py-4 border-t-[0.5px] border-gray-500">

@@ -1,40 +1,48 @@
 export const headers = [
     {
+        id: "0",
         lang: "en",
         content: "About",
         url: "/"
     },
     {
+        id: "0",
         lang: "es",
         content: "Acerca de mí",
         url: "/es/"
     },
     {
+        id: "1",
         lang: "en",
         content: "Web/Mobile",
         url: "/projects"
     },
     {
+        id: "1",
         lang: "es",
         content: "Web/Mobile",
         url: "/es/projects"
     },
     {
+        id: "2",
         lang: "en",
         content: "Data",
         url: "/data-projects"
     },
     {
+        id: "2",
         lang: "es",
         content: "Proyectos de Datos",
         url: "/es/data-proyectos"
     },
     {
+        id: "3",
         lang: "en",
         content: "Blog",
         url: "/blog"
     },
     {
+        id: "3",
         lang: "es",
         content: "Blog",
         url: "/es/blog"
