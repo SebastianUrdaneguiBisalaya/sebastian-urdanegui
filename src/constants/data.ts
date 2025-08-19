@@ -40,3 +40,42 @@ export const headers = [
         url: "/es/blog"
     },
 ]
+
+export const headersTable = [
+    {
+        lang: "en",
+        content: "Year",
+    },
+    {
+        lang: "es",
+        content: "Año",
+    },
+    {
+        lang: "en",
+        content: "Title",
+    },
+    {
+        lang: "es",
+        content: "Título",
+    },
+    {
+        lang: "en",
+        content: "Views",
+        url: "/"
+    },
+    {
+        lang: "es",
+        content: "Vistas",
+        url: "/es/"
+    },
+    {
+        lang: "en",
+        content: "Comments",
+        url: "/"
+    },
+    {
+        lang: "es",
+        content: "Comentarios",
+        url: "/es/"
+    },
+]
