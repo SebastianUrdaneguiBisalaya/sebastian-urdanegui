@@ -11,13 +11,23 @@ export const headers = [
     },
     {
         lang: "en",
-        content: "Projects",
+        content: "Web/Mobile",
         url: "/projects"
     },
     {
         lang: "es",
-        content: "Proyectos",
+        content: "Web/Mobile",
         url: "/es/projects"
+    },
+    {
+        lang: "en",
+        content: "Data",
+        url: "/data-projects"
+    },
+    {
+        lang: "es",
+        content: "Proyectos de Datos",
+        url: "/es/data-proyectos"
     },
     {
         lang: "en",
@@ -28,5 +38,5 @@ export const headers = [
         lang: "es",
         content: "Blog",
         url: "/es/blog"
-    }
+    },
 ]

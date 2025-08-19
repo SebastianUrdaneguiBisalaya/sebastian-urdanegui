@@ -19,7 +19,7 @@ const headersFiltered = headers.filter((header) => header.lang === lang);
         <ClientRouter />
 	</head>
 	<body class="bg-white dark:bg-dark">
-        <div class="max-w-3xl w-full mx-auto p-6">
+        <div class="max-w-3xl w-full mx-auto p-6 flex flex-col gap-2">
             <header class="w-full flex flex-col items-center justify-center">
                 <div class="flex flex-col gap-2 border-b-[0.5px] border-gray-500 w-full py-4">
                     <div class="flex items-center justify-center self-end gap-6 text-white">
@@ -56,11 +56,11 @@ const headersFiltered = headers.filter((header) => header.lang === lang);
                         </a>
                     </div>
                 </div>
-                <div class="flex flex-row items-center justify-center gap-4 w-full border-b-[0.5px] border-gray-500">
+                <div class="flex flex-row items-center justify-start xs:justify-center gap-4 w-full border-b-[0.5px] border-gray-500 overflow-x-auto">
                     {
                         headersFiltered.map((header) => {
                             return (
-                            <a href={header.url} class="flex flex-col items-center justify-center text-sm hover:bg-dark/5 dark:hover:bg-white/20 cursor-pointer group">
+                            <a href={header.url} class="shrink-0 flex flex-col items-center justify-center text-sm hover:bg-dark/5 dark:hover:bg-white/20 cursor-pointer group">
                                 <span class="font-reddit text-black/60 dark:text-gray-300 text-center text-sm p-4 group-hover:text-dark dark:group-hover:text-white">{header.content}</span>
                             </a>
                             )
@@ -69,8 +69,12 @@ const headersFiltered = headers.filter((header) => header.lang === lang);
                 </div>
             </header>
 		    <slot />
-            <footer class="">
-
+            <footer class="w-full flex flex-col items-center justify-center p-4 border-t-[0.5px] border-gray-500">
+                <p class="text-center text-dark/60 dark:text-gray-400 font-sora text-xs">
+                    {
+                        lang === "en" ? "Made with ❤️ by Sebastian Marat Urdanegui Bisalaya" : "Hecho con ❤️ por Sebastian Marat Urdanegui Bisalaya"
+                    }
+                </p>
             </footer>
         </div>
 	</body>
