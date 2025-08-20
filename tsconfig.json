@@ -21,6 +21,9 @@
       ],
       "@constants/*": [
         "src/constants/*"
+      ],
+      "@db/*": [
+        "src/db/*"
       ]
     },
     "jsx": "react-jsx",
