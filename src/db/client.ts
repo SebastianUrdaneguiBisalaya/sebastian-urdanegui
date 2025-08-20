@@ -5,44 +5,55 @@ const client = createClient({
     authToken: import.meta.env.TURSO_AUTH_TOKEN ?? ""
 });
 
-export const getWebProjects = async () => {
+export const getListContent = async (type: string) => {
     const response = await client.execute({
-        sql: `SELECT * FROM web_projects`,
+        sql: `SELECT id, date, title, views, url FROM content WHERE type = :type`,
+        args: {
+            type: type
+        }
     });
-    return response;
+    return response.toJSON();
 };
 
-export const getDataProjects = async () => {
-    const response = await client.execute({
-        sql: `SELECT * FROM data_projects`,
-    });
-    return response;
-};
-
-export const getBlogPosts = async () => {
-    const response = await client.execute({
-        sql: `SELECT * FROM blog_posts`,
-    });
-    return response;
-};
 
 export const getBlogPost = async (id: string) => {
     const response = await client.execute({
-        sql: `SELECT * FROM blog_posts WHERE id = ${id}`,
+        sql: `SELECT id, content FROM blog WHERE id = :id`,
+        args: {
+            id: id
+        }
     });
-    return response;
+    return response.toJSON();
 };
+
+export const getCommentsByBlogPost = async (id: string) => {
+    const response = await client.execute({
+        sql: `SELECT id, user_name, comment FROM comments WHERE content_id = :id`,
+        args: {
+            id: id
+        }
+    });
+    return response.toJSON();
+}
 
 export const postView = async (id: string) => {
     const response = await client.execute({
-        sql: `UPDATE web_projects SET views = views + 1 WHERE id = ${id}`,
+        sql: `UPDATE content SET views = views + 1 WHERE id = :id`,
+        args: {
+            id: id
+        }
     });
-    return response;
+    return response.toJSON();
 };
 
-export const postComment = async (id: string) => {
+export const postComment = async (id: string, user_name: string, comment: string) => {
     const response = await client.execute({
-        sql: `UPDATE web_projects SET comments = comments + 1 WHERE id = ${id}`,
+        sql: `INSERT INTO comments (content_id, user_name, comment) VALUES (:id, :user_name, :comment)`,
+        args: {
+            id: id,
+            user_name: user_name,
+            comment: comment
+        }
     });
-    return response;
+    return response.toJSON();
 };
