@@ -19,7 +19,12 @@ export const getListContent = async (type: string, lang: string) => {
 
 export const getBlogPost = async (id: string) => {
     const response = await client.execute({
-        sql: `SELECT id, content FROM blog WHERE id = :id`,
+        sql: `
+            SELECT A.id, A.content, A.author, B.date, B.title, B.views
+            FROM blog A
+            LEFT JOIN content B ON A.content_id = B.id
+            WHERE id = :id
+        `,
         args: {
             id: id
         }
