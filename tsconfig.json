@@ -9,6 +9,8 @@
   ],
   "compilerOptions": {
     "baseUrl": ".",
+    "strictNullChecks": true,
+    "allowJs": true,
     "paths": {
       "@components/*": [
         "src/components/*"
@@ -21,6 +23,9 @@
       ],
       "@constants/*": [
         "src/constants/*"
+      ],
+      "@db/*": [
+        "src/db/*"
       ]
     },
     "jsx": "react-jsx",
