@@ -1,10 +1,22 @@
 import { type APIRoute } from "astro";
-import { getListContent, postView } from "@db/client";
+import { getListContent, patchView } from "@db/client";
 
 export const GET: APIRoute = async ({ request }) => {
-    return new Response("Hello, Data Projects");
+    try {
+        const { type } = await request.json();
+        const response = await getListContent(type);
+        return new Response(JSON.stringify(response), { status: 200 });
+    } catch (error: unknown) {
+        return new Response(`Ocurrió un error al obtener los datos: ${error}`, { status: 500 });
+    }
 }
 
 export const PATCH: APIRoute = async ({ request }) => {
-    return new Response("Hello, Data Projects");
+    try {
+        const { id } = await request.json();
+        const response = await patchView(id);
+        return new Response(JSON.stringify(response), { status: 201 });
+    } catch (error) {
+        return new Response(`Ocurrió un error al registrar los datos: ${error}`, { status: 500 });
+    }
 }

@@ -7,7 +7,7 @@ const client = createClient({
 
 export const getListContent = async (type: string) => {
     const response = await client.execute({
-        sql: `SELECT id, date, title, views, url FROM content WHERE type = :type`,
+        sql: `SELECT id, date, title, views, url, lang FROM content WHERE type = :type`,
         args: {
             type: type
         }
@@ -36,7 +36,7 @@ export const getCommentsByBlogPost = async (id: string) => {
     return response.toJSON();
 }
 
-export const postView = async (id: string) => {
+export const patchView = async (id: string) => {
     const response = await client.execute({
         sql: `UPDATE content SET views = views + 1 WHERE id = :id`,
         args: {
