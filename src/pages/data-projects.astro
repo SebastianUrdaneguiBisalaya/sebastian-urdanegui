@@ -1,9 +1,14 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import Table from "@components/table";
+const lang = Astro.currentLocale;
 ---
 
 <Layout>
     <main class="py-4">
-
+        <Table
+            lang={lang ?? ""}
+            type="data-projects"
+        />
     </main>
 </Layout>

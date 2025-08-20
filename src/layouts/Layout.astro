@@ -55,7 +55,7 @@ import Navbar from "@components/navbar.tsx";
                         </a>
                     </div>
                 </div>
-                <Navbar lang={lang as string} client:load />
+                <Navbar lang={lang ?? ""} client:load />
             </header>
 		    <slot />
             <footer class="w-full flex flex-row items-center justify-between py-4 border-t-[0.5px] border-gray-500">

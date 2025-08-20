@@ -5,11 +5,12 @@ const client = createClient({
     authToken: import.meta.env.TURSO_AUTH_TOKEN ?? ""
 });
 
-export const getListContent = async (type: string) => {
+export const getListContent = async (type: string, lang: string) => {
     const response = await client.execute({
-        sql: `SELECT id, date, title, views, url, lang FROM content WHERE type = :type`,
+        sql: `SELECT id, date, title, views, url, lang FROM content WHERE type = :type AND lang = :lang`,
         args: {
-            type: type
+            type: type,
+            lang: lang
         }
     });
     return response.toJSON();
