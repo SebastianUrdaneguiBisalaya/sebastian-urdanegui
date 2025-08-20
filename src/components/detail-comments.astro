@@ -1,0 +1,22 @@
+---
+interface Props {
+    user_name?: string;
+    comment: string;
+}
+
+const { user_name, comment } = Astro.props;
+---
+
+<div class="w-fit flex flex-col gap-2 border-t-[0.5px] border-gray-500 py-2">
+    <div class="flex flex-row items-center gap-2">
+        <span class="opacity-50">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><path fill="currentColor" d="m.586 12l4.95-4.95L6.95 8.464L3.414 12l3.536 3.536l-1.414 1.414zm8.201 8.728l4.486-17.94l1.94.485l-4.485 17.94zm8.263-5.192L20.586 12L17.05 8.464l1.415-1.414l4.95 4.95l-4.95 4.95z"/></svg>
+        </span>
+        <span class="text-dark/80 dark:text-gray-200 text-xs font-sora w-full">
+            {user_name}
+        </span>
+    </div>
+    <p class="text-dark dark:text-white text-sm font-reddit w-full">
+        {comment}
+    </p>
+</div>
