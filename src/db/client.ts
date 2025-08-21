@@ -8,9 +8,23 @@ const client = createClient({
 export const getListContent = async (type: string, lang: string) => {
     let query;
     if (lang === "en") {
-        query = `SELECT id, date, title_en AS title, views, url, entity FROM content WHERE type = :type ORDER BY date DESC`
+        query = `
+            SELECT A.id, A.date, A.title_en AS title, A.views, A.url, A.entity, COALESCE(COUNT(B.id), 0) AS comments
+            FROM content A
+            LEFT JOIN comments B ON A.id = B.content_id
+            WHERE type = :type 
+            GROUP BY A.id, A.date, A.title_en, A.views, A.url, A.entity
+            ORDER BY A.date DESC
+        `
     } else {
-        query = `SELECT id, date, title, views, url, entity FROM content WHERE type = :type ORDER BY date DESC`
+        query = `
+            SELECT A.id, A.date, A.title AS title, A.views, A.url, A.entity, COALESCE(COUNT(B.id), 0) AS comments
+            FROM content A
+            LEFT JOIN comments B ON A.id = B.content_id
+            WHERE type = :type
+            GROUP BY A.id, A.date, A.title_en, A.views, A.url, A.entity
+            ORDER BY A.date DESC
+        `
     }
     const response = await client.execute({
         sql: query,
@@ -26,18 +40,22 @@ export const getBlogPost = async (id: string, lang: string) => {
     let query;
     if (lang === "en") {
         query = `
-            SELECT A.id, A.content_en, A.author, B.date, B.title_en, B.views
+            SELECT A.id, A.content_en, A.author, B.date, B.views, COUNT(C.id) AS comments
             FROM blog A
             LEFT JOIN content B ON A.content_id = B.id
+            LEFT JOIN comments C ON A.content_id = C.content_id
             WHERE id = :id
+            GROUP BY A.id, A.content_en, A.author, B.date, B.views
         `
     }
     else {
         query = `
-            SELECT A.id, A.content, A.author, B.date, B.title, B.views
+            SELECT A.id, A.content, A.author, B.date, B.views, COUNT(C.id) AS comments
             FROM blog A
             LEFT JOIN content B ON A.content_id = B.id
+            LEFT JOIN comments C ON A.content_id = C.content_id
             WHERE id = :id
+            GROUP BY A.id, A.content, A.author, B.date, B.views
         `
     }
     const response = await client.execute({
@@ -60,17 +78,16 @@ export const getCommentsByBlogPost = async (id: string) => {
 }
 
 export const patchView = async (id: string) => {
-    const response = await client.execute({
+    await client.execute({
         sql: `UPDATE content SET views = views + 1 WHERE id = :id`,
         args: {
             id: id
         }
     });
-    return response.toJSON();
 };
 
 export const postComment = async (id: string, user_name: string, comment: string) => {
-    const response = await client.execute({
+    await client.execute({
         sql: `INSERT INTO comments (content_id, user_name, comment) VALUES (:id, :user_name, :comment)`,
         args: {
             id: id,
@@ -78,5 +95,4 @@ export const postComment = async (id: string, user_name: string, comment: string
             comment: comment
         }
     });
-    return response.toJSON();
 };

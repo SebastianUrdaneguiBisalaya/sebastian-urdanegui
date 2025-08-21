@@ -86,4 +86,4 @@ export const headersTable = [
         content: "Comentarios",
         url: "/es/"
     },
-]
+];
