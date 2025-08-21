@@ -59,9 +59,9 @@ try {
                 </div>
             </div>
         </div>
-        <div id="content-markdown" class="prose-sm md:prose dark:prose-invert" set:html={parsedContent} />
+        <div id="content-markdown" class="prose dark:prose-invert" set:html={parsedContent} />
         <div class="flex flex-col gap-4">
-            <form id="comment-form" class="flex flex-col gap-2 w-full">
+            <form id="comment-form" class="flex flex-col gap-2 w-full mb-4">
                 <label
                     class="font-sora text-dark/60 dark:text-gray-300 text-sm w-full"
                     for="user-name"
@@ -70,7 +70,7 @@ try {
                         lang === "en" ? "User name" : "Nombre de usuario"
                     }
                 </label>
-                <input id="user-name" class="w-full text-dark/80 dark:text-gray-200 text-base font-reddit focus:ring-0 focus:border-0 focus:outline-none" type="text" placeholder={lang === "en" ? "Write your name" : "Escribe tu nombre"} />
+                <input id="user-name" class="w-full text-dark/80 dark:text-gray-200 text-base font-reddit focus:ring-0 focus:border-0 focus:outline-none border-b-[0.5px] border-gray-500" type="text" placeholder={lang === "en" ? "Write your name" : "Escribe tu nombre"} />
                 <label
                     class="font-sora text-dark/60 dark:text-gray-300 text-sm w-full"
                     for="comment"
@@ -79,7 +79,7 @@ try {
                         lang === "en" ? "Comment" : "Comentario"
                     }
                 </label>
-                <textarea class="w-full text-dark/80 dark:text-gray-200 text-base font-reddit focus:ring-0 focus:border-0 focus:outline-none" id="comment" placeholder={lang === "en" ? "Write your comment" : "Escribe tu comentario"}></textarea>
+                <textarea class="w-full text-dark/80 dark:text-gray-200 text-base font-reddit focus:ring-0 focus:border-0 focus:outline-none border-b-[0.5px] border-gray-500" id="comment" placeholder={lang === "en" ? "Write your comment" : "Escribe tu comentario"}></textarea>
                 <button
                     class="w-fit bg-dark/90 dark:bg-gray-200 text-gray-200 dark:text-dark/80 text-base font-reddit rounded-lg py-2 px-4 hover:bg-dark/90 dark:hover:bg-gray-100 cursor-pointer"
                     type="submit"
@@ -147,6 +147,10 @@ try {
 
         const userName = userNameInput.value ?? "";
         const comment = commentInput.value ?? "";
+
+        if (!userName.trim() || !comment.trim()) {
+            return;
+        }
 
         const postData = {
             id: contentId,
