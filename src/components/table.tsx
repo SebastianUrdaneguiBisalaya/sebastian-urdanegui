@@ -7,6 +7,7 @@ interface Item {
     title: string;
     views: number;
     comments?: number;
+    entity?: string;
     url: string;
 }
 
@@ -21,13 +22,16 @@ export default function Table ({ lang, type }: Props) {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                console.log("client data", type, lang);
                 const response = await fetch(`/api/projects?type=${type}&lang=${lang}`);
+                console.log("response client", response);
                 if (!response.ok) {
                     throw new Error(`Ocurrió un error al obtener los datos: ${response.statusText}`);
                 }
                 const result = await response.json();
                 setData(result);
             } catch (error: unknown) {
+                console.log("error client", error);
                 throw new Error(`Ocurrió un error al obtener los datos: ${error}`);
             }
         }
@@ -37,15 +41,19 @@ export default function Table ({ lang, type }: Props) {
         <table class="w-full table-fixed border-collapsex">
             <thead class="w-full">
                 <tr>
-                    <th class="w-[70px] font-reddit text-dark/60 dark:text-white/60 text-sm font-light text-left pb-2">{headers[0].content}</th>
-                    <th class="w-auto font-sora text-dark/60 dark:text-white/60 text-sm font-light text-left pb-2">{headers[1].content}</th>
-                    <th class="w-[70px] font-reddit text-dark/60 dark:text-white/60 text-sm font-light text-center pb-2">{headers[2].content}</th>
-                    <th class="w-[90px] font-reddit text-dark/60 dark:text-white/60 text-sm font-light text-center pb-2">{headers[3].content}</th>
+                    <th colSpan={4} class="p-0">
+                        <div class="flex flex-row items-center gap-4 px-2 w-full">
+                            <span class="w-full max-w-[70px] font-sora text-dark/60 dark:text-white/60 text-sm font-light text-left pb-2">{headers[0].content}</span>
+                            <span class="grow font-sora text-dark/60 dark:text-white/60 text-sm font-light text-left pb-2">{headers[1].content}</span>
+                            <span class="w-full max-w-[70px] font-reddit text-dark/60 dark:text-white/60 text-sm font-light text-center pb-2">{headers[2].content}</span>
+                            <span class="w-full max-w-[90px] font-reddit text-dark/60 dark:text-white/60 text-sm font-light text-center pb-2">{headers[3].content}</span>
+                        </div>
+                    </th>
                 </tr>
             </thead>
             <tbody class="w-full">
                 {
-                    data.map((item) => {
+                    data?.map((item) => {
                         const isExternal = item.url.startsWith("http");
                         return (
                             <tr class="cursor-pointer border-t-[0.5px] border-gray-500 hover:bg-dark/5 dark:hover:bg-white/20 group">
@@ -55,25 +63,30 @@ export default function Table ({ lang, type }: Props) {
                                         {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                                         class="flex flex-row items-center gap-4 p-2 w-full cursor-pointer"
                                     >
-                                        <span class="w-[70px] font-reddit text-dark/80 dark:text-white/80 text-sm py-2">{extractYearFromDate(item.date)}</span>
-                                        <span class="w-auto font-sora text-dark/80 dark:text-white/95 text-base group-hover:underline">{item.title}</span>
-                                        <span class="w-[70px] font-reddit text-dark/80 dark:text-white/80 text-sm text-center">
+                                        <span class="w-full max-w-[70px] font-reddit text-dark/80 dark:text-white/80 text-sm py-2">{extractYearFromDate(item.date)}</span>
+                                        <div class="flex flex-col gap-0.5 grow">
+                                            <span class="font-sora text-dark/80 dark:text-white/95 text-sm group-hover:underline">{item.title}</span>
+                                            {
+                                                item.entity && <span class="font-reddit text-dark/60 dark:text-white/75 text-xs font-light">{item.entity}</span>
+                                            }
+                                        </div>
+                                        <span class="w-full max-w-[70px] font-reddit text-dark/80 dark:text-white/80 text-sm text-center">
                                             <div class="flex flex-row items-center justify-center gap-2">
                                                 <span class="opacity-50">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 32 32"><path fill="currentColor" d="M30.94 15.66A16.69 16.69 0 0 0 16 5A16.69 16.69 0 0 0 1.06 15.66a1 1 0 0 0 0 .68A16.69 16.69 0 0 0 16 27a16.69 16.69 0 0 0 14.94-10.66a1 1 0 0 0 0-.68M16 25c-5.3 0-10.9-3.93-12.93-9C5.1 10.93 10.7 7 16 7s10.9 3.93 12.93 9C26.9 21.07 21.3 25 16 25"/><path fill="currentColor" d="M16 10a6 6 0 1 0 6 6a6 6 0 0 0-6-6m0 10a4 4 0 1 1 4-4a4 4 0 0 1-4 4"/></svg>
                                                 </span>
                                                 <span class="font-reddit text-dark/80 dark:text-white/80 text-sm">
-                                                    {item.views}
+                                                    {item.views ?? 0}
                                                 </span>
                                             </div>
                                         </span>
-                                        <span class="w-[90px] font-reddit text-dark/80 dark:text-white/80 text-sm text-center">
+                                        <span class="w-full max-w-[90px] font-reddit text-dark/80 dark:text-white/80 text-sm text-center">
                                             <div class="flex flex-row items-center justify-center gap-2 w-full cursor-pointer">
                                                 <span class="opacity-50">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.3 16.7a9 9 0 1 1 3 3L3 21z"/></svg>
                                                 </span>
                                                 <span class="font-reddit text-dark/80 dark:text-white/80 text-sm">
-                                                    {item.comments}
+                                                    {item.comments ?? 0}
                                                 </span>
                                             </div>
                                         </span>

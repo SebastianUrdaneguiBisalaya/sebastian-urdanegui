@@ -6,30 +6,47 @@ const client = createClient({
 });
 
 export const getListContent = async (type: string, lang: string) => {
+    let query;
+    if (lang === "en") {
+        query = `SELECT id, date, title_en AS title, views, url, entity FROM content WHERE type = :type ORDER BY date DESC`
+    } else {
+        query = `SELECT id, date, title, views, url, entity FROM content WHERE type = :type ORDER BY date DESC`
+    }
     const response = await client.execute({
-        sql: `SELECT id, date, title, views, url, lang FROM content WHERE type = :type AND lang = :lang`,
+        sql: query,
         args: {
             type: type,
-            lang: lang
         }
     });
-    return response.toJSON();
+    return response.rows;
 };
 
 
-export const getBlogPost = async (id: string) => {
-    const response = await client.execute({
-        sql: `
+export const getBlogPost = async (id: string, lang: string) => {
+    let query;
+    if (lang === "en") {
+        query = `
+            SELECT A.id, A.content_en, A.author, B.date, B.title_en, B.views
+            FROM blog A
+            LEFT JOIN content B ON A.content_id = B.id
+            WHERE id = :id
+        `
+    }
+    else {
+        query = `
             SELECT A.id, A.content, A.author, B.date, B.title, B.views
             FROM blog A
             LEFT JOIN content B ON A.content_id = B.id
             WHERE id = :id
-        `,
+        `
+    }
+    const response = await client.execute({
+        sql: query,
         args: {
             id: id
         }
     });
-    return response.toJSON();
+    return response.rows;
 };
 
 export const getCommentsByBlogPost = async (id: string) => {
@@ -39,7 +56,7 @@ export const getCommentsByBlogPost = async (id: string) => {
             id: id
         }
     });
-    return response.toJSON();
+    return response.rows;
 }
 
 export const patchView = async (id: string) => {
