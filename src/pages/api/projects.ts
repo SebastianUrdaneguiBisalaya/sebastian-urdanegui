@@ -7,8 +7,6 @@ export const GET: APIRoute = async ({ request }) => {
         const type = url.searchParams.get("type");
         const lang = url.searchParams.get("lang");
 
-        console.log("query params", type, lang);
-
         if (!type || !lang) {
             return new Response(`Faltan datos`, { status: 400 });
         }

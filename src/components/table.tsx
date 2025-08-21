@@ -22,16 +22,13 @@ export default function Table ({ lang, type }: Props) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log("client data", type, lang);
                 const response = await fetch(`/api/projects?type=${type}&lang=${lang}`);
-                console.log("response client", response);
                 if (!response.ok) {
                     throw new Error(`Ocurrió un error al obtener los datos: ${response.statusText}`);
                 }
                 const result = await response.json();
                 setData(result);
             } catch (error: unknown) {
-                console.log("error client", error);
                 throw new Error(`Ocurrió un error al obtener los datos: ${error}`);
             }
         }
