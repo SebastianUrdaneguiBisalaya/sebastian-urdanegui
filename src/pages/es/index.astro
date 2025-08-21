@@ -1,9 +1,26 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import { Image } from "astro:assets";
 ---
 
 <Layout>
 	<main class="py-4">
-
+		<article>
+			<div class="flex justify-center sm:block">
+				<Image
+					src="/image-profile.webp"
+					alt="Profile image"
+					width={130}
+					height={130}
+					class="sm:float-right self-center mb-4 sm:ml-4 rounded-full grayscale hover:grayscale-0 transition-all duration-300 ease-in-out"
+				/>
+			</div>
+			<p class="leading-[1.75] font-reddit text-dark/60 dark:text-gray-300 text-base w-full mt-[1.25em] mb-[1.25em]">
+				Desarrollador Full Stack con experiencia en el desarrollo de soluciones web y mobile utilizando tecnologías modernas como React, React Native, TypeScript y Node.js. Apasionado por construir productos escalables desde cero, con foco en buenas prácticas, APIs RESTful, arquitectura limpia y metodologías ágiles (SCRUM).
+			</p>
+			<p class="leading-[1.75] font-reddit text-dark/60 dark:text-gray-300 text-base w-full mt-[1.25em] mb-[1.25em]">
+				Desarrollador Full Stack con experiencia en el desarrollo de soluciones web y mobile utilizando tecnologías modernas como React, React Native, TypeScript y Node.js. Apasionado por construir productos escalables desde cero, con foco en buenas prácticas, APIs RESTful, arquitectura limpia y metodologías ágiles (SCRUM).
+			</p>
+		</article>
 	</main>
 </Layout>
