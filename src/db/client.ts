@@ -44,7 +44,7 @@ export const getBlogPost = async (id: string, lang: string) => {
             FROM blog A
             LEFT JOIN content B ON A.content_id = B.id
             LEFT JOIN comments C ON A.content_id = C.content_id
-            WHERE id = :id
+            WHERE A.content_id = :id
             GROUP BY A.id, A.content_en, A.author, B.date, B.views
         `
     }
@@ -54,7 +54,7 @@ export const getBlogPost = async (id: string, lang: string) => {
             FROM blog A
             LEFT JOIN content B ON A.content_id = B.id
             LEFT JOIN comments C ON A.content_id = C.content_id
-            WHERE id = :id
+            WHERE A.content_id = :id
             GROUP BY A.id, A.content, A.author, B.date, B.views
         `
     }
