@@ -1,0 +1,18 @@
+---
+interface Props {
+    lang: string;
+}
+
+const { lang } = Astro.props;
+---
+
+<footer class="w-full flex flex-row items-center justify-between py-4 border-t-[0.5px] border-gray-500">
+    <span class="text-left text-dark/60 dark:text-gray-400 font-sora text-[0.65rem] sm:text-xs">
+        Sebastian Marat Urdanegui Bisalaya (sebasurdanegui@gmail.com)
+    </span>
+    <a href="https://github.com/SebastianUrdaneguiBisalaya/sebastian-urdanegui" target="_blank" class="text-right text-dark/60 dark:text-gray-400 font-sora text-[0.65rem] sm:text-xs cursor-pointer hover:underline hover:text-dark dark:hover:text-white/90">
+        {
+            lang === "en" ? "Code" : "Código"
+        }
+    </a>
+</footer>

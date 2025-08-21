@@ -9,5 +9,17 @@
     --font-sora: "Sora", sans-serif;
     --font-reddit: "Reddit Sans", sans-serif;
     --color-dark: #1c1c1c;
-    --breakpoint-xs: 31.875rem;
+}
+
+#content-markdown h1, h2, h3, h4, h5, h6 {
+    font-family: "Sora", sans-serif;
+}
+
+#content-markdown p {
+    font-family: "Reddit Sans", sans-serif;
+}
+
+#content-markdown figcaption {
+    font-family: "Reddit Sans", sans-serif;
+    text-align: center;
 }
