@@ -148,6 +148,10 @@ try {
         const userName = userNameInput.value ?? "";
         const comment = commentInput.value ?? "";
 
+        if (!userName.trim() || !comment.trim()) {
+            return;
+        }
+
         const postData = {
             id: contentId,
             user_name: userName,
