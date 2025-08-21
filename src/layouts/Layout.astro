@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
+import Footer from "@components/footer.astro";
 const lang = Astro.currentLocale;
 const currentPath = Astro.url.pathname.replace(`/${lang}`, "");
 const newpathES = `/es${currentPath}`;
@@ -18,14 +19,14 @@ import Navbar from "@components/navbar.tsx";
         <ClientRouter />
 	</head>
 	<body class="bg-white dark:bg-dark">
-        <div class="max-w-3xl w-full mx-auto p-6 flex flex-col gap-2">
+        <div class="max-w-3xl w-full mx-auto p-2 md:p-6 flex flex-col gap-2">
             <header class="w-full flex flex-col items-center justify-center">
                 <div class="flex flex-col gap-2 border-b-[0.5px] border-gray-500 w-full py-4">
                     <div class="flex items-center justify-center self-end gap-6 text-white">
                         <div class="flex flex-row items-center gap-2">
-                            <a href={newpathEN} class:list={["font-sora", "text-dark/60", "dark:text-gray-400", "hover:text-dark", "dark:hover:text-white", "hover:underline", "text-sm", "cursor-pointer", { "underline": lang === "en" }]}>EN</a>
-                            <span class="font-sora text-dark/60 dark:text-gray-400 text-sm">/</span>
-                            <a href={newpathES} class:list={["font-sora", "text-dark/60", "dark:text-gray-400", "hover:text-dark", "dark:hover:text-white", "hover:underline", "text-sm", "cursor-pointer", { "underline": lang === "es" }]}>ES</a>
+                            <a href={newpathEN} class:list={["font-sora", "text-dark/60", "dark:text-gray-400", "hover:text-dark", "dark:hover:text-white", "hover:underline", "text-xs sm:text-sm", "cursor-pointer", { "underline": lang === "en" }]}>EN</a>
+                            <span class="font-sora text-dark/60 dark:text-gray-400 text-xs sm:text-sm">/</span>
+                            <a href={newpathES} class:list={["font-sora", "text-dark/60", "dark:text-gray-400", "hover:text-dark", "dark:hover:text-white", "hover:underline", "text-xs sm:text-sm", "cursor-pointer", { "underline": lang === "es" }]}>ES</a>
                         </div>
                         <button
                             id="dark-mode-toggle"
@@ -58,16 +59,7 @@ import Navbar from "@components/navbar.tsx";
                 <Navbar lang={lang ?? ""} client:load />
             </header>
 		    <slot />
-            <footer class="w-full flex flex-row items-center justify-between py-4 border-t-[0.5px] border-gray-500">
-                <p class="text-left text-dark/60 dark:text-gray-400 font-sora text-xs w-full">
-                    Sebastian Marat Urdanegui Bisalaya (sebasurdanegui@gmail.com)
-                </p>
-                <a href="https://github.com/SebastianUrdaneguiBisalaya/sebastian-urdanegui" target="_blank" class="text-right text-dark/60 dark:text-gray-400 font-sora text-xs w-full cursor-pointer hover:underline hover:text-dark dark:hover:text-white/90">
-                    {
-                        lang === "en" ? "Code" : "Código"
-                    }
-                </a>
-            </footer>
+            <Footer lang={lang ?? ""} />
         </div>
 	</body>
 </html>

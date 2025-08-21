@@ -8,7 +8,7 @@ export const headers = [
     {
         id: "0",
         lang: "es",
-        content: "Acerca de mí",
+        content: "Info",
         url: "/es/"
     },
     {
@@ -32,7 +32,7 @@ export const headers = [
     {
         id: "2",
         lang: "es",
-        content: "Proyectos de Datos",
+        content: "Datos",
         url: "/es/data-proyectos"
     },
     {

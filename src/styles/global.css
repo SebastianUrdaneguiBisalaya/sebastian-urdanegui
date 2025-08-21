@@ -9,7 +9,6 @@
     --font-sora: "Sora", sans-serif;
     --font-reddit: "Reddit Sans", sans-serif;
     --color-dark: #1c1c1c;
-    --breakpoint-xs: 31.875rem;
 }
 
 #content-markdown h1, h2, h3, h4, h5, h6 {

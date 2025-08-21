@@ -11,14 +11,6 @@ interface Comment {
 
 const lang = Astro.currentLocale;
 
-// export async function getStaticPaths() {
-//     return [{
-//         params: {
-//             id: "1"
-//         }
-//     }]
-// }
-
 const { id } = Astro.params;
 const baseUrl = "http://localhost:4321";
 
@@ -67,7 +59,7 @@ try {
                 </div>
             </div>
         </div>
-        <div id="content-markdown" class="prose dark:prose-invert" set:html={parsedContent} />
+        <div id="content-markdown" class="prose-sm md:prose dark:prose-invert" set:html={parsedContent} />
         <div class="flex flex-col gap-4">
             <form id="comment-form" class="flex flex-col gap-2 w-full">
                 <label
