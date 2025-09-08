@@ -5,6 +5,7 @@ import { headersTable } from "@constants/data";
 interface Item {
     date: string;
     title: string;
+		description?: string;
     views?: number;
     comments?: number;
     entity?: string;
@@ -72,6 +73,7 @@ export default function Table ({ lang, type }: Props) {
                             </div>
                             <div class="flex flex-col gap-0.5 grow">
                                 <span class="font-sora text-dark/80 dark:text-white/95 text-sm group-hover:underline">{item.title}</span>
+																<span class="font-sora text-dark/65 dark:text-white/80 text-xs">{item.description}</span>
                                 {
                                     item.entity && <span class="font-reddit text-dark/60 dark:text-white/75 text-xs font-light">{item.entity}</span>
                                 }
