@@ -44,6 +44,28 @@ html.dark pre {
   background-color: var(--shiki-dark-bg);
 }
 
+pre code {
+  counter-reset: line;
+}
+
+pre code [data-line] {
+  display: block;
+  counter-increment: line;
+  padding-left: 2.5rem;
+  position: relative;
+}
+
+pre code [data-line]::before {
+  content: counter(line);
+  position: absolute;
+  left: 0;
+  width: 0.5rem;
+  text-align: right;
+  color: #888;
+  user-select: none;
+}
+
+
 .hidden-scroll {
 	overflow-x: auto;
 	scrollbar-width: none;
@@ -53,3 +75,4 @@ html.dark pre {
 .hidden-scroll::-webkit-scrollbar {
 	display: none;
 }
+

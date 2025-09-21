@@ -40,7 +40,7 @@ python -m venv venv
 
 Activar el entorno virtual
 
-```bash title="fib.ex" showLineNumbers /palindrome/#v
+```bash
 source venv/bin/activate # (masOS)
 venv\Scripts\activate # (Windows)
 ```
