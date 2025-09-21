@@ -11,21 +11,6 @@ import Navbar from "@components/navbar.tsx";
 
 <html lang={lang}>
   <head>
-    <script is:inline>
-      (function () {
-        try {
-          const theme = localStorage.getItem("theme");
-          const prefersDark = window.matchMedia(
-            "(prefers-color-scheme: dark)"
-          ).matches;
-          if (theme === "dark" || (!theme && prefersDark)) {
-            document.documentElement.classList.add("dark");
-          } else {
-            document.documentElement.classList.remove("dark");
-          }
-        } catch (_) {}
-      })();
-    </script>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
@@ -70,6 +55,21 @@ import Navbar from "@components/navbar.tsx";
     <meta name="rating" content="general" />
     <meta name="distribution" content="global" />
     <meta name="target" content="all" />
+    <script is:inline>
+      (function () {
+        try {
+          const theme = localStorage.getItem("theme");
+          const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)"
+          ).matches;
+          if (theme === "dark" || (!theme && prefersDark)) {
+            document.documentElement.classList.add("dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+          }
+        } catch (_) {}
+      })();
+    </script>
     <ClientRouter />
   </head>
   <body class="bg-white dark:bg-dark">
