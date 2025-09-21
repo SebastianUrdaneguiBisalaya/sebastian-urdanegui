@@ -31,7 +31,7 @@ export default function Navbar ({ lang }: Props) {
     }
 
     return (
-        <div class="flex flex-row items-center justify-center gap-4 w-full border-b-[0.5px] border-gray-500 overflow-x-auto">
+        <div class="flex flex-row items-center justify-center gap-4 w-full border-b-[0.5px] border-gray-500 hidden-scroll">
             {
                 headersFiltered.map((header) => {
                     return (

@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap");
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+@import "remark-callouts/styles.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -19,7 +20,36 @@
     font-family: "Reddit Sans", sans-serif;
 }
 
-#content-markdown figcaption {
-    font-family: "Reddit Sans", sans-serif;
-    text-align: center;
+
+article h1, h2, h3, h4, h5, h6 {
+	font-family: "Sora", sans-serif;
+}
+
+article p {
+	font-family: "Reddit Sans", sans-serif;
+}
+
+pre code span {
+  color: var(--shiki-light);
+}
+
+html.dark pre code span {
+  color: var(--shiki-dark);
+}
+
+pre {
+  background-color: var(--shiki-light-bg);
+}
+html.dark pre {
+  background-color: var(--shiki-dark-bg);
+}
+
+.hidden-scroll {
+	overflow-x: auto;
+	scrollbar-width: none;
+	-ms-overflow-style: none
+}
+
+.hidden-scroll::-webkit-scrollbar {
+	display: none;
 }
