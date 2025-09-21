@@ -9,8 +9,23 @@ const newpathEN = `${currentPath}`;
 import Navbar from "@components/navbar.tsx";
 ---
 
-<html lang={lang} class="dark">
+<html lang={lang}>
   <head>
+    <script is:inline>
+      (function () {
+        try {
+          const theme = localStorage.getItem("theme");
+          const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)"
+          ).matches;
+          if (theme === "dark" || (!theme && prefersDark)) {
+            document.documentElement.classList.add("dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+          }
+        } catch (_) {}
+      })();
+    </script>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
@@ -299,19 +314,19 @@ import Navbar from "@components/navbar.tsx";
 
   document.addEventListener("astro:page-load", () => {
     const darkModeToggleButton = document.getElementById("dark-mode-toggle");
-    const applyTheme = () => {
-      const theme = localStorage.theme;
-      if (theme === "dark") {
-        document.documentElement.classList.add("dark");
-      } else if (theme === "light") {
-        document.documentElement.classList.remove("dark");
-      } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    };
-    applyTheme();
+    // const applyTheme = () => {
+    //   const theme = localStorage.theme;
+    //   if (theme === "dark") {
+    //     document.documentElement.classList.add("dark");
+    //   } else if (theme === "light") {
+    //     document.documentElement.classList.remove("dark");
+    //   } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    //     document.documentElement.classList.add("dark");
+    //   } else {
+    //     document.documentElement.classList.remove("dark");
+    //   }
+    // };
+    // applyTheme();
     renderMermaid();
     darkModeToggleButton?.addEventListener("click", () => {
       const isDark = document.documentElement.classList.contains("dark");

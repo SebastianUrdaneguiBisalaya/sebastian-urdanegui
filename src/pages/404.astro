@@ -2,40 +2,41 @@
 import "../styles/global.css";
 const lang = Astro.currentLocale;
 ---
-<html lang={lang} class="dark">
+
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
+    <script>
+      (() => {
+        const theme = localStorage.theme;
+        if (
+          theme === "dark" ||
+          (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      })();
+    </script>
     <title>404</title>
   </head>
-  <body class="bg-white dark:bg-dark flex items-center justify-center min-h-screen">
+  <body
+    class="bg-white dark:bg-dark flex items-center justify-center min-h-screen"
+  >
     <div class="text-center flex flex-col items-center gap-4">
-      <h1 class="text-4xl font-sora font-bold text-dark dark:text-white">404</h1>
+      <h1 class="text-4xl font-sora font-bold text-dark dark:text-white">
+        404
+      </h1>
       <p class="font-reddit text-dark/60 dark:text-white/60 text-sm">
         {lang === "en" ? "Page not found" : "Página no encontrada"}
       </p>
-      <a href={lang === "en" ? "/" : "/es"} class="text-dark/60 dark:text-white/60 text-sm font-reddit underline">
-        {
-            lang === "en" ? "Go to home page" : "Ir a la página de inicio"
-        }
+      <a
+        href={lang === "en" ? "/" : "/es"}
+        class="text-dark/60 dark:text-white/60 text-sm font-reddit underline"
+      >
+        {lang === "en" ? "Go to home page" : "Ir a la página de inicio"}
       </a>
     </div>
   </body>
 </html>
-
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const applyTheme = () => {
-            const theme = localStorage.theme;
-            if (theme === "dark") {
-                document.documentElement.classList.add("dark");
-            } else if (theme === "light") {
-                document.documentElement.classList.remove("dark");
-            } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-                document.documentElement.classList.add("dark");
-            } else {
-                document.documentElement.classList.remove("dark");
-            }
-        };
-        applyTheme();
-    })
-</script>
