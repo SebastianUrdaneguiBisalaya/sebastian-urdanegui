@@ -29,6 +29,11 @@ article p {
 	font-family: "Reddit Sans", sans-serif;
 }
 
+figure {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
 pre code span {
   color: var(--shiki-light);
 }
@@ -39,9 +44,38 @@ html.dark pre code span {
 
 pre {
   background-color: var(--shiki-light-bg);
+	border-top-right-radius: 0;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0.375rem;
+	border-bottom-right-radius: 0.375rem;	
+	scrollbar-width: thin;
+	scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
+
 html.dark pre {
   background-color: var(--shiki-dark-bg);
+	scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+pre::-webkit-scrollbar-button {
+	display: none;
+}
+
+pre::-webkit-scrollbar {
+	height: 8px;
+}
+
+pre::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+pre::-webkit-scrollbar-thumb {
+	border-radius: 4px;
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+html.dark pre::-webkit-scrollbar-thumb {
+	background-color: rgba(255, 255, 255, 0.2);
 }
 
 pre code {
@@ -65,6 +99,22 @@ pre code [data-line]::before {
   user-select: none;
 }
 
+figcaption[data-rehype-pretty-code-title] {
+	position: relative;
+	padding: 0.5rem;
+	color: #383A42;
+	background: #FAFAFA;
+	border-top-left-radius: 0.375rem;
+	border-top-right-radius: 0.375rem;
+	border-bottom: #ECECEC solid 1px;
+	font-family: "Reddit Sans", sans-serif;
+}
+
+html.dark figcaption[data-rehype-pretty-code-title] {
+	color: #EEFFFF;
+	background: #212121;
+	border-bottom: #555555 solid 1px;
+}
 
 .hidden-scroll {
 	overflow-x: auto;

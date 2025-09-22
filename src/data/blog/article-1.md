@@ -28,7 +28,7 @@ Dirígete a la terminal y ejecuta los siguientes comandos:
 
 Clonar el repositorio
 
-```bash
+```bash title="src/app/main.py"
 git clone
 ```
 
