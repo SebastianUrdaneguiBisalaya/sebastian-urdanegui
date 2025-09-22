@@ -35,36 +35,6 @@ export const getListContent = async (type: string, lang: string) => {
   return response.rows;
 };
 
-export const getBlogPost = async (id: string, lang: string) => {
-  let query;
-  if (lang === "en") {
-    query = `
-            SELECT A.id, A.content_en, A.author, B.date, B.views, COUNT(C.id) AS comments
-            FROM blog A
-            LEFT JOIN content B ON A.content_id = B.id
-            LEFT JOIN comments C ON A.content_id = C.content_id
-            WHERE A.content_id = :id
-            GROUP BY A.id, A.content_en, A.author, B.date, B.views
-        `;
-  } else {
-    query = `
-            SELECT A.id, A.content, A.author, B.date, B.views, COUNT(C.id) AS comments
-            FROM blog A
-            LEFT JOIN content B ON A.content_id = B.id
-            LEFT JOIN comments C ON A.content_id = C.content_id
-            WHERE A.content_id = :id
-            GROUP BY A.id, A.content, A.author, B.date, B.views
-        `;
-  }
-  const response = await client.execute({
-    sql: query,
-    args: {
-      id: id,
-    },
-  });
-  return response.rows;
-};
-
 export const getCommentsByBlogPost = async (id: string) => {
   const response = await client.execute({
     sql: `SELECT id, user_name, comment FROM comments WHERE content_id = :id`,

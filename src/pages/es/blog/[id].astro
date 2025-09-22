@@ -2,6 +2,7 @@
 import Layout from "@layouts/Layout.astro";
 import DetailComments from "@components/detail-comments.astro";
 import { getEntry, render } from "astro:content";
+import { baseUrl } from "@constants/data";
 
 interface Comment {
   id: string;
@@ -9,70 +10,40 @@ interface Comment {
   comment: string;
 }
 
-const lang = Astro.currentLocale;
-
 const { id } = Astro.params;
-const baseUrl = "https://sebastianurdanegui.vercel.app/";
 
 if (!id) {
   return Astro.redirect("/404");
 }
 
-// let post, comments, parsedContent;
-
-const comments = [
-  {
-    id: "0",
-    user_name: "Sebastian Urdanegui",
-    comment: "Este es un comentario",
-  },
-];
-
-const post = [
-  {
-    id: "0",
-    author: "Sebastian Urdanegui",
-    date: "2023-01-01",
-    views: "100",
-    comments: "100",
-  },
-];
-
 const entry = await getEntry("blog", "article-1");
 if (!entry) {
-  throw new Error(`Entry not found.`);
+  return Astro.redirect("/404");
 }
 
 const { Content } = await render(entry);
 
-// try {
-//     const [responsePost, responseComments] = await Promise.all([
-//         fetch(`${baseUrl}/api/blog?id=${id}&lang=${lang}`),
-//         fetch(`${baseUrl}/api/comments?id=${id}`)
-//     ]);
-//     if (!responsePost.ok || !responseComments.ok) {
-//         throw new Error(`Ocurrió un error al obtener los datos: ${responsePost.statusText} ${responseComments.statusText}`);
-//     }
-//     [post, comments] = await Promise.all([
-//         responsePost.json(),
-//         responseComments.json(),
-//     ]);
-//     parsedContent = marked(lang === "en" ? post[0].content_en : post[0].content);
-// } catch (error: unknown) {
-//     console.error(error);
-//     return Astro.redirect("/404");
-// }
+let comments;
+
+try {
+  const responseComments = await fetch(`${baseUrl}/api/comments?id=${id}`);
+  if (!responseComments.ok) {
+    throw new Error(
+      `Ocurrió un error al obtener los datos: ${responseComments.statusText}`
+    );
+  }
+  comments = await responseComments.json();
+} catch (error: unknown) {
+  console.error(error);
+  return Astro.redirect("/404");
+}
 ---
 
 <Layout id={id}>
   <article id={id} class="w-full flex flex-col gap-4">
     <div class="flex flex-row items-center justify-between w-full gap-4">
       <p class="font-reddit text-dark/60 dark:text-gray-300 text-xs w-full">
-        {
-          lang === "en"
-            ? `Update date: ${entry.data.publishDate}`
-            : `Fecha de actualización: ${entry.data.publishDate}`
-        }
+        {`Fecha de actualización: ${entry.data.publishDate}`}
       </p>
       <div class="flex flex-row items-center gap-4 w-fit">
         <div class="flex flex-row items-center gap-2">
@@ -126,31 +97,29 @@ const { Content } = await render(entry);
           class="font-sora text-dark/60 dark:text-gray-300 text-sm w-full"
           for="user-name"
         >
-          {lang === "en" ? "User name" : "Nombre de usuario"}
+          Nombre de usuario
         </label>
         <input
           id="user-name"
           class="w-full text-dark/80 dark:text-gray-200 text-base font-reddit focus:ring-0 focus:border-0 focus:outline-none border-b-[0.5px] border-gray-500"
           type="text"
-          placeholder={lang === "en" ? "Write your name" : "Escribe tu nombre"}
+          placeholder="Escribe tu nombre"
         />
         <label
           class="font-sora text-dark/60 dark:text-gray-300 text-sm w-full"
           for="comment"
         >
-          {lang === "en" ? "Comment" : "Comentario"}
+          Comentario
         </label>
         <textarea
           class="w-full text-dark/80 dark:text-gray-200 text-base font-reddit focus:ring-0 focus:border-0 focus:outline-none border-b-[0.5px] border-gray-500"
           id="comment"
-          placeholder={lang === "en"
-            ? "Write your comment"
-            : "Escribe tu comentario"}></textarea>
+          placeholder="Escribe tu comentario"></textarea>
         <button
           class="w-fit bg-dark/90 dark:bg-gray-200 text-gray-200 dark:text-dark/80 text-base font-reddit rounded-lg py-2 px-4 hover:bg-dark/90 dark:hover:bg-gray-100 cursor-pointer"
           type="submit"
         >
-          {lang === "en" ? "Post comment" : "Publicar comentario"}
+          Publicar comentario
         </button>
       </form>
       <div
@@ -161,7 +130,7 @@ const { Content } = await render(entry);
       {
         comments?.length > 0 && (
           <h3 class="font-reddit text-dark/60 dark:text-gray-300 text-base w-full">
-            {lang === "en" ? "Comments" : "Comentarios"}
+            Comentarios
           </h3>
         )
       }

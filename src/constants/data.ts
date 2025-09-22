@@ -1,3 +1,8 @@
+export const baseUrl =
+  import.meta.env.NODE_ENV === "development"
+    ? "http://localhost:4321"
+    : "https://sebastianurdanegui.vercel.app/";
+
 export const headers = [
   {
     id: "0",

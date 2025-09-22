@@ -1,7 +1,8 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import DetailComments from "@components/detail-comments.astro";
-import { marked } from "marked";
+import { getEntry, render } from "astro:content";
+import { baseUrl } from "@constants/data";
 
 interface Comment {
   id: string;
@@ -9,32 +10,29 @@ interface Comment {
   comment: string;
 }
 
-const lang = Astro.currentLocale;
-
 const { id } = Astro.params;
-const baseUrl = "https://sebastianurdanegui.vercel.app/";
 
 if (!id) {
   return Astro.redirect("/404");
 }
 
-let post, comments, parsedContent;
+const entry = await getEntry("blog", "article-1");
+if (!entry) {
+  return Astro.redirect("/404");
+}
+
+const { Content } = await render(entry);
+
+let comments;
 
 try {
-  const [responsePost, responseComments] = await Promise.all([
-    fetch(`${baseUrl}/api/blog?id=${id}&lang=${lang}`),
-    fetch(`${baseUrl}/api/comments?id=${id}`),
-  ]);
-  if (!responsePost.ok || !responseComments.ok) {
+  const responseComments = await fetch(`${baseUrl}/api/comments?id=${id}`);
+  if (!responseComments.ok) {
     throw new Error(
-      `Ocurrió un error al obtener los datos: ${responsePost.statusText} ${responseComments.statusText}`
+      `Ocurrió un error al obtener los datos: ${responseComments.statusText}`
     );
   }
-  [post, comments] = await Promise.all([
-    responsePost.json(),
-    responseComments.json(),
-  ]);
-  parsedContent = marked(lang === "en" ? post[0].content_en : post[0].content);
+  comments = await responseComments.json();
 } catch (error: unknown) {
   console.error(error);
   return Astro.redirect("/404");
@@ -43,16 +41,9 @@ try {
 
 <Layout id={id}>
   <article id={id} class="w-full flex flex-col gap-4">
-    <p class="font-reddit font-medium text-dark/80 dark:text-gray-200 w-full">
-      {
-        lang === "en"
-          ? `Written by ${post[0].author}`
-          : `Escrito por ${post.author}`
-      }
-    </p>
     <div class="flex flex-row items-center justify-between w-full gap-4">
       <p class="font-reddit text-dark/60 dark:text-gray-300 text-xs w-full">
-        {post[0].date}
+        {`Update date: ${entry.data.publishDate}`}
       </p>
       <div class="flex flex-row items-center gap-4 w-fit">
         <div class="flex flex-row items-center gap-2">
@@ -72,7 +63,7 @@ try {
             >
           </span>
           <p class="font-reddit text-dark/60 dark:text-gray-300 text-xs w-full">
-            {post[0].views}
+            {entry.data.views}
           </p>
         </div>
         <div class="flex flex-row items-center gap-2">
@@ -92,47 +83,43 @@ try {
             >
           </span>
           <p class="font-reddit text-dark/60 dark:text-gray-300 text-xs w-full">
-            {post[0].comments}
+            {entry.data.comments}
           </p>
         </div>
       </div>
     </div>
-    <div
-      id="content-markdown"
-      class="prose dark:prose-invert"
-      set:html={parsedContent}
-    />
+    <article class="prose dark:prose-invert max-w-full">
+      <Content />
+    </article>
     <div class="flex flex-col gap-4">
       <form id="comment-form" class="flex flex-col gap-2 w-full mb-4">
         <label
           class="font-sora text-dark/60 dark:text-gray-300 text-sm w-full"
           for="user-name"
         >
-          {lang === "en" ? "User name" : "Nombre de usuario"}
+          User name
         </label>
         <input
           id="user-name"
           class="w-full text-dark/80 dark:text-gray-200 text-base font-reddit focus:ring-0 focus:border-0 focus:outline-none border-b-[0.5px] border-gray-500"
           type="text"
-          placeholder={lang === "en" ? "Write your name" : "Escribe tu nombre"}
+          placeholder="Write your name"
         />
         <label
           class="font-sora text-dark/60 dark:text-gray-300 text-sm w-full"
           for="comment"
         >
-          {lang === "en" ? "Comment" : "Comentario"}
+          Comment
         </label>
         <textarea
           class="w-full text-dark/80 dark:text-gray-200 text-base font-reddit focus:ring-0 focus:border-0 focus:outline-none border-b-[0.5px] border-gray-500"
           id="comment"
-          placeholder={lang === "en"
-            ? "Write your comment"
-            : "Escribe tu comentario"}></textarea>
+          placeholder="Write your comment"></textarea>
         <button
           class="w-fit bg-dark/90 dark:bg-gray-200 text-gray-200 dark:text-dark/80 text-base font-reddit rounded-lg py-2 px-4 hover:bg-dark/90 dark:hover:bg-gray-100 cursor-pointer"
           type="submit"
         >
-          {lang === "en" ? "Post comment" : "Publicar comentario"}
+          Post comment
         </button>
       </form>
       <div
@@ -143,7 +130,7 @@ try {
       {
         comments?.length > 0 && (
           <h3 class="font-reddit text-dark/60 dark:text-gray-300 text-base w-full">
-            {lang === "en" ? "Comments" : "Comentarios"}
+            Comments
           </h3>
         )
       }
