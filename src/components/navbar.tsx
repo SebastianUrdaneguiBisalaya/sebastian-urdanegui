@@ -7,13 +7,15 @@ interface Props {
 
 export default function Navbar ({ lang }: Props) {
     const headersFiltered = headers.filter((header) => header.lang === lang);
-    const [activeIndex, setActiveIndex] = useState<string>("0");
+    const [activeIndex, setActiveIndex] = useState<string | null>(null);
 
     const updateActiveIndex = () => {
         const currentPath = window.location.pathname;
         const currentHeader = headersFiltered.find(header => header.url === currentPath);
         if (currentHeader) {
             setActiveIndex(currentHeader.id);
+        } else {
+            setActiveIndex(null);
         }
     };
 
@@ -31,7 +33,7 @@ export default function Navbar ({ lang }: Props) {
     }
 
     return (
-        <div class="flex flex-row items-center justify-center gap-4 w-full border-b-[0.5px] border-gray-500 overflow-x-auto">
+        <div class="flex flex-row items-center justify-center gap-4 w-full border-b-[0.5px] border-gray-500 hidden-scroll">
             {
                 headersFiltered.map((header) => {
                     return (

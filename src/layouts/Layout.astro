@@ -55,10 +55,25 @@ import Navbar from "@components/navbar.tsx";
     <meta name="rating" content="general" />
     <meta name="distribution" content="global" />
     <meta name="target" content="all" />
+    <script is:inline>
+      (function () {
+        try {
+          const theme = localStorage.getItem("theme");
+          const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)"
+          ).matches;
+          if (theme === "dark" || (!theme && prefersDark)) {
+            document.documentElement.classList.add("dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+          }
+        } catch (_) {}
+      })();
+    </script>
     <ClientRouter />
   </head>
   <body class="bg-white dark:bg-dark">
-    <div class="max-w-3xl w-full mx-auto p-4 md:p-6 flex flex-col gap-2">
+    <div class="max-w-3xl w-full mx-auto p-4 md:p-6 flex flex-col gap-4">
       <header class="w-full flex flex-col items-center justify-center">
         <div
           class="flex flex-col gap-2 border-b-[0.5px] border-gray-500 w-full py-4"
@@ -246,21 +261,70 @@ import Navbar from "@components/navbar.tsx";
 </style>
 
 <script>
+  import mermaid from "mermaid";
+
+  async function renderMermaid() {
+    const isDark = document.documentElement.classList.contains("dark");
+
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: isDark ? "dark" : "default",
+      securityLevel: "loose",
+    });
+
+    const codeBlocks = document.querySelectorAll(
+      "pre[data-language='mermaid'] code"
+    );
+
+    codeBlocks.forEach(async (block, index) => {
+      const parent = block.parentElement;
+      const code = block.textContent.trim();
+
+      const container = document.createElement("div");
+      container.classList.add("mermaid-source");
+      container.setAttribute("data-code", code);
+      container.style.display = "flex";
+      container.style.justifyContent = "center";
+      container.style.alignItems = "center";
+
+      const { svg } = await mermaid.render(`mermaid-${index}`, code);
+      container.innerHTML = svg;
+
+      parent?.replaceWith(container);
+    });
+  }
+
+  async function rerenderMermaid() {
+    const isDark = document.documentElement.classList.contains("dark");
+
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: isDark ? "dark" : "default",
+      securityLevel: "loose",
+    });
+
+    const diagrams = document.querySelectorAll(".mermaid-source");
+
+    diagrams.forEach(async (diagram, index) => {
+      const code = diagram.getAttribute("data-code") as string;
+      const { svg } = await mermaid.render(`mermaid-${index}`, code);
+      diagram.innerHTML = svg;
+    });
+  }
+
   document.addEventListener("astro:page-load", () => {
     const darkModeToggleButton = document.getElementById("dark-mode-toggle");
-    const applyTheme = () => {
-      const theme = localStorage.theme;
-      if (theme === "dark") {
-        document.documentElement.classList.add("dark");
-      } else if (theme === "light") {
-        document.documentElement.classList.remove("dark");
-      } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    };
-    applyTheme();
+    const theme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+    if (theme === "dark" || (!theme && prefersDark)) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+
+    renderMermaid();
     darkModeToggleButton?.addEventListener("click", () => {
       const isDark = document.documentElement.classList.contains("dark");
       if (isDark) {
@@ -270,6 +334,7 @@ import Navbar from "@components/navbar.tsx";
         document.documentElement.classList.add("dark");
         localStorage.setItem("theme", "dark");
       }
+      rerenderMermaid();
     });
   });
 </script>

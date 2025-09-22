@@ -2,17 +2,27 @@ import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import preact from "@astrojs/preact";
 import vercel from "@astrojs/vercel";
-// https://astro.build/config
+import rehypePrettyCode from "rehype-pretty-code";
+import remarkCallouts from "remark-callouts";
+
 export default defineConfig({
   output: "server",
 
   markdown: {
-    shikiConfig: {
-      themes: {
-        light: "github-light",
-        dark: "github-dark"
-      }
-    }
+    syntaxHighlight: false,
+    rehypePlugins: [
+      [
+        rehypePrettyCode,
+        {
+          theme: {
+            light: "one-light",
+            dark: "material-theme-darker",
+          },
+          keepBackground: true,
+        },
+      ],
+    ],
+    remarkPlugins: [remarkCallouts],
   },
 
   vite: {
@@ -20,13 +30,13 @@ export default defineConfig({
   },
 
   i18n: {
-    locales:["en", "es"],
+    locales: ["en", "es"],
     defaultLocale: "en",
     routing: {
       prefixDefaultLocale: false,
-    }
+    },
   },
 
   integrations: [preact()],
-  adapter: vercel()
+  adapter: vercel(),
 });
