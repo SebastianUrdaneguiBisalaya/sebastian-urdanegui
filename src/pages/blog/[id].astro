@@ -16,7 +16,7 @@ if (!id) {
   return Astro.redirect("/404");
 }
 
-const entry = await getEntry("blog", "article-1");
+const entry = await getEntry("blog", id);
 if (!entry) {
   return Astro.redirect("/404");
 }
