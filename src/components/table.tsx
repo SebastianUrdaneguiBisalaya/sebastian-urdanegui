@@ -53,7 +53,7 @@ export default function Table ({ lang, type }: Props) {
                 }
                 {
                     type === "blog" && (
-                        <span class="w-[75px] font-sora text-xs sm:text-sm font-light text-center pb-2">
+                        <span class="w-[75px] font-sora prose dark:prose-invert text-xs sm:text-sm font-light text-center pb-2">
                             {headers[3].content}
                         </span>
                     )

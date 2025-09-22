@@ -116,6 +116,11 @@ html.dark figcaption[data-rehype-pretty-code-title] {
 	border-bottom: #555555 solid 1px;
 }
 
+.mermaid-source {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
 .hidden-scroll {
 	overflow-x: auto;
 	scrollbar-width: none;
