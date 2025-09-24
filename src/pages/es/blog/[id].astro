@@ -1,7 +1,7 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import DetailComments from "@components/detail-comments.astro";
-import { getCollection, render } from "astro:content";
+import { getEntry, render } from "astro:content";
 import { baseUrl } from "@constants/data";
 
 interface Comment {
@@ -10,35 +10,31 @@ interface Comment {
   comment: string;
 }
 
-export async function getStaticPaths() {
-  const blogs = await getCollection("spanishBlog");
-  return blogs.map((blog) => ({
-    params: {
-      id: blog.id,
-    },
-    props: {
-      entry: blog,
-    },
-  }));
-}
-
-const blog = Astro.props;
-
-console.log("blog", blog);
-
-const { entry } = blog;
-
-console.log("entry", entry);
+// export async function getStaticPaths() {
+//   const blogs = await getCollection("englishBlog");
+//   return blogs.map((blog) => ({
+//     params: {
+//       id: blog.id,
+//     },
+//     props: {
+//       entry: blog,
+//     },
+//   }));
+// }
 
 const { id } = Astro.params;
 
 console.log("id", id);
 
-if (!entry.id) {
+if (!id) {
   return Astro.redirect("/404");
 }
 
-console.log("Next");
+const entry = await getEntry("englishBlog", id);
+
+if (!entry) {
+  return Astro.redirect("/404");
+}
 
 const { Content } = await render(entry);
 
@@ -58,7 +54,7 @@ try {
   return Astro.redirect("/404");
 }
 
-export const prerender = true;
+export const prerender = false;
 ---
 
 <Layout id={id}>
