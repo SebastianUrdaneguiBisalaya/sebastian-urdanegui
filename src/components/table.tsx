@@ -7,7 +7,6 @@ interface Item {
     title: string;
 		description?: string;
     views?: number;
-    comments?: number;
     entity?: string;
     url: string;
 }
@@ -51,13 +50,6 @@ export default function Table ({ lang, type }: Props) {
                         </span>
                     )
                 }
-                {
-                    type === "blog" && (
-                        <span class="hidden sm:block w-[95px] font-sora prose dark:prose-invert text-xs sm:text-sm font-light text-center pb-2">
-                            {headers[3].content}
-                        </span>
-                    )
-                }
             </div>
             {
                 data?.map((item) => {
@@ -67,7 +59,7 @@ export default function Table ({ lang, type }: Props) {
                         <a
                             href={url}
                             {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                            class={`grid ${type === "blog" ? "grid-cols-[70px_minmax(0,1fr)] sm:grid-cols-[70px_minmax(0,1fr)_70px_95px]" : "grid-cols-[70px_minmax(0,1fr)]"} gap-4 py-2 px-0 sm:px-2 w-full cursor-pointer border-t-[0.5px] border-gray-500 hover:bg-dark/5 dark:hover:bg-white/20 group`}
+                            class={`grid ${type === "blog" ? "grid-cols-[70px_minmax(0,1fr)] sm:grid-cols-[70px_minmax(0,1fr)_70px]" : "grid-cols-[70px_minmax(0,1fr)]"} gap-4 py-2 px-0 sm:px-2 w-full cursor-pointer border-t-[0.5px] border-gray-500 hover:bg-dark/5 dark:hover:bg-white/20 group`}
                         >
                             <div class="flex flex-col">
                                 <span class="font-reddit prose dark:prose-invert text-sm py-2">{extractYearFromDate(item.date)}</span>
@@ -87,18 +79,6 @@ export default function Table ({ lang, type }: Props) {
                                         </span>
                                         <span class="font-reddit prose dark:prose-invert text-sm">
                                             {item.views ?? 0}
-                                        </span>
-                                    </div>
-                                )
-                            }
-                            {
-                                type === "blog" && (
-                                    <div class="hidden sm:flex flex-row items-center justify-center gap-2">
-                                        <span class="opacity-50 prose dark:prose-invert">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.3 16.7a9 9 0 1 1 3 3L3 21z"/></svg>
-                                        </span>
-                                        <span class="font-reddit prose dark:prose-invert text-sm">
-                                            {item.comments ?? 0}
                                         </span>
                                     </div>
                                 )
