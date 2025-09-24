@@ -1,8 +1,8 @@
 ---
 author: Sebastian Marat Urdanegui Bisalaya
 publishDate: "2025-09-24"
-views: 150
-comments: 150
+# views: 150
+# comments: 150
 ---
 
 # **Voice Agent for Forms: A Practical Guide with FastAPI and Groq**

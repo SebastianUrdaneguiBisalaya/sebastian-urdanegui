@@ -1,8 +1,8 @@
 ---
 author: Sebastian Marat Urdanegui Bisalaya
 publishDate: "2025-09-24"
-views: 150
-comments: 150
+# views: 150
+# comments: 150
 ---
 
 # **Agente de Voz para Formularios: Una guía práctica con FastAPI y Groq**

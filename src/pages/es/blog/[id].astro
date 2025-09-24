@@ -45,7 +45,7 @@ try {
       <p class="font-reddit text-dark/60 dark:text-gray-300 text-xs w-full">
         {`Fecha de actualización: ${entry.data.publishDate}`}
       </p>
-      <div class="flex flex-row items-center gap-4 w-fit">
+      <!-- <div class="flex flex-row items-center gap-4 w-fit">
         <div class="flex flex-row items-center gap-2">
           <span class="opacity-50 text-dark/60 dark:text-gray-300">
             <svg
@@ -86,7 +86,7 @@ try {
             {entry.data.comments}
           </p>
         </div>
-      </div>
+      </div> -->
     </div>
     <article class="prose dark:prose-invert max-w-full">
       <Content />
@@ -148,68 +148,80 @@ try {
   </article>
 </Layout>
 
-<!-- <script>
-    const contentId = document.getElementsByTagName("article")[0].id;
-    const postForm = document.getElementById("comment-form") as HTMLFormElement | null;
-    const commentResponse = document.getElementById("comment-response") as HTMLDivElement | null;
+<script>
+  const contentId = document.getElementsByTagName("article")[0].id;
+  const postForm = document.getElementById(
+    "comment-form"
+  ) as HTMLFormElement | null;
+  const commentResponse = document.getElementById(
+    "comment-response"
+  ) as HTMLDivElement | null;
 
-    if (contentId) {
-        fetch("/api/projects", {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                id: contentId
-            })
-        }).catch((error) => console.error("Error al actualizar la cantidad de vistas:", error));
+  if (contentId) {
+    fetch("/api/projects", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: contentId,
+      }),
+    }).catch((error) =>
+      console.error("Error al actualizar la cantidad de vistas:", error)
+    );
+  }
+
+  function showMessage(message: string) {
+    if (commentResponse) {
+      postForm?.reset();
+      postForm?.classList.add("hidden");
+      commentResponse.textContent = message;
+      commentResponse.classList.remove("hidden");
     }
-    
-    function showMessage(message: string) {
-        if (commentResponse ) {
-            postForm?.reset();
-            postForm?.classList.add("hidden");
-            commentResponse.textContent = message;
-            commentResponse.classList.remove("hidden");
-        }
+  }
+
+  postForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const userNameInput = document.getElementById(
+      "user-name"
+    ) as HTMLInputElement | null;
+    const commentInput = document.getElementById(
+      "comment"
+    ) as HTMLTextAreaElement | null;
+
+    if (!userNameInput || !commentInput || !contentId) {
+      return;
     }
 
-    postForm?.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const userNameInput = document.getElementById("user-name") as HTMLInputElement | null;
-        const commentInput = document.getElementById("comment") as HTMLTextAreaElement | null;
+    const userName = userNameInput.value ?? "";
+    const comment = commentInput.value ?? "";
 
-        if (!userNameInput || !commentInput || !contentId) {
-            return;
-        }
+    if (!userName.trim() || !comment.trim()) {
+      return;
+    }
 
-        const userName = userNameInput.value ?? "";
-        const comment = commentInput.value ?? "";
+    const postData = {
+      id: contentId,
+      user_name: userName,
+      comment: comment,
+    };
 
-        if (!userName.trim() || !comment.trim()) {
-            return;
-        }
-
-        const postData = {
-            id: contentId,
-            user_name: userName,
-            comment: comment
-        };
-
-        try {
-            const response = await fetch(`/api/comments`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(postData)
-            });
-            if (!response.ok) {
-                throw new Error(`Ocurrió un error al publicar el comentario: ${response.statusText}`);
-            }
-            showMessage("✅ ¡Tu comentario ha sido publicado!");
-        } catch (error: unknown) {
-            showMessage("❌ ¡Ocurrió un error al publicar el comentario!");
-        }
-    });
-</script> -->
+    try {
+      const response = await fetch(`/api/comments`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      });
+      if (!response.ok) {
+        throw new Error(
+          `Ocurrió un error al publicar el comentario: ${response.statusText}`
+        );
+      }
+      showMessage("✅ ¡Tu comentario ha sido publicado!");
+    } catch (error: unknown) {
+      showMessage("❌ ¡Ocurrió un error al publicar el comentario!");
+    }
+  });
+</script>
