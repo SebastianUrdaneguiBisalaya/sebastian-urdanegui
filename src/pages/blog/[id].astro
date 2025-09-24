@@ -45,7 +45,7 @@ try {
       <p class="font-reddit text-dark/60 dark:text-gray-300 text-xs w-full">
         {`Update date: ${entry.data.publishDate}`}
       </p>
-      <div class="flex flex-row items-center gap-4 w-fit">
+      <!-- <div class="flex flex-row items-center gap-4 w-fit">
         <div class="flex flex-row items-center gap-2">
           <span class="opacity-50 text-dark/60 dark:text-gray-300">
             <svg
@@ -86,37 +86,37 @@ try {
             {entry.data.comments}
           </p>
         </div>
-      </div>
+      </div> -->
     </div>
-    <article class="prose dark:prose-invert max-w-full">
+    <div class="prose dark:prose-invert max-w-full">
       <Content />
-    </article>
+    </div>
     <div class="flex flex-col gap-4">
       <form id="comment-form" class="flex flex-col gap-2 w-full mb-4">
         <label
-          class="font-sora text-dark/60 dark:text-gray-300 text-sm w-full"
+          class="font-sora prose dark:prose-invert text-sm w-full"
           for="user-name"
         >
           User name
         </label>
         <input
           id="user-name"
-          class="w-full text-dark/80 dark:text-gray-200 text-base font-reddit focus:ring-0 focus:border-0 focus:outline-none border-b-[0.5px] border-gray-500"
+          class="w-full prose dark:prose-invert font-reddit focus:ring-0 focus:border-0 focus:outline-none border-b-[0.5px] border-gray-500"
           type="text"
           placeholder="Write your name"
         />
         <label
-          class="font-sora text-dark/60 dark:text-gray-300 text-sm w-full"
+          class="font-sora prose dark:prose-invert text-sm w-full"
           for="comment"
         >
           Comment
         </label>
         <textarea
-          class="w-full text-dark/80 dark:text-gray-200 text-base font-reddit focus:ring-0 focus:border-0 focus:outline-none border-b-[0.5px] border-gray-500"
+          class="w-full prose dark:prose-invert font-reddit focus:ring-0 focus:border-0 focus:outline-none border-b-[0.5px] border-gray-500"
           id="comment"
           placeholder="Write your comment"></textarea>
         <button
-          class="w-fit bg-dark/90 dark:bg-gray-200 text-gray-200 dark:text-dark/80 text-base font-reddit rounded-lg py-2 px-4 hover:bg-dark/90 dark:hover:bg-gray-100 cursor-pointer"
+          class="w-fit bg-dark/90 dark:bg-gray-200 prose-invert dark:prose font-reddit rounded-lg py-2 px-4 hover:bg-dark/90 dark:hover:bg-gray-100 cursor-pointer"
           type="submit"
         >
           Post comment
@@ -124,14 +124,12 @@ try {
       </form>
       <div
         id="comment-response"
-        class="my-4 p-3 text-sm text-center text-dark/80 dark:text-gray-300 border border-gray-400 w-fit rounded-lg hidden"
+        class="my-4 p-3 text-sm text-center prose dark:prose-invert border border-gray-400 w-fit rounded-lg hidden"
       >
       </div>
       {
         comments?.length > 0 && (
-          <h3 class="font-reddit text-dark/60 dark:text-gray-300 text-base w-full">
-            Comments
-          </h3>
+          <h3 class="font-reddit prose dark:prose-invert w-full">Comments</h3>
         )
       }
       {

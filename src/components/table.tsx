@@ -36,7 +36,7 @@ export default function Table ({ lang, type }: Props) {
         fetchData();
     }, []);
     return (
-        <div class="flex flex-col w-full px-0 sm:px-2">
+        <div class="flex flex-col w-full">
             <div class="flex flex-row items-center gap-4 w-full">
                 <span class="w-[70px] font-sora prose dark:prose-invert text-xs sm:text-sm font-light text-left pb-2">
                     {headers[0].content}
@@ -46,14 +46,14 @@ export default function Table ({ lang, type }: Props) {
                 </span>
                 {
                     type === "blog" && (
-                        <span class="w-[60px] font-sora prose dark:prose-invert text-xs sm:text-sm font-light text-center pb-2">
+                        <span class="w-[70px] font-sora prose dark:prose-invert text-xs sm:text-sm font-light text-center pb-2">
                             {headers[2].content}
                         </span>
                     )
                 }
                 {
                     type === "blog" && (
-                        <span class="w-[75px] font-sora prose dark:prose-invert text-xs sm:text-sm font-light text-center pb-2">
+                        <span class="w-[95px] font-sora prose dark:prose-invert text-xs sm:text-sm font-light text-center pb-2">
                             {headers[3].content}
                         </span>
                     )
@@ -62,11 +62,12 @@ export default function Table ({ lang, type }: Props) {
             {
                 data?.map((item) => {
                     const isExternal = item.url.startsWith("http");
+										const url = type === "blog" && lang === "es" ? `/es${item.url}` : `${item.url}`;
                     return (
                         <a
-                            href={item.url}
+                            href={url}
                             {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                            class={`grid ${type === "blog" ? "grid-cols-[70px_minmax(0,1fr)_60px_75px]" : "grid-cols-[70px_minmax(0,1fr)]"} gap-4 py-2 px-0 sm:px-2 w-full cursor-pointer border-t-[0.5px] border-gray-500 hover:bg-dark/5 dark:hover:bg-white/20 group`}
+                            class={`grid ${type === "blog" ? "grid-cols-[70px_minmax(0,1fr)_70px_95px]" : "grid-cols-[70px_minmax(0,1fr)]"} gap-4 py-2 px-0 sm:px-2 w-full cursor-pointer border-t-[0.5px] border-gray-500 hover:bg-dark/5 dark:hover:bg-white/20 group`}
                         >
                             <div class="flex flex-col">
                                 <span class="font-reddit prose dark:prose-invert text-sm py-2">{extractYearFromDate(item.date)}</span>

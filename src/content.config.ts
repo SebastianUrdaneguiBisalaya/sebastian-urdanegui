@@ -9,8 +9,8 @@ const englishBlog = defineCollection({
   schema: z.object({
     author: z.string(),
     publishDate: z.string(),
-    views: z.number(),
-    comments: z.number(),
+    // views: z.number(),
+    // comments: z.number(),
   }),
 });
 
@@ -22,8 +22,8 @@ const spanishBlog = defineCollection({
   schema: z.object({
     author: z.string(),
     publishDate: z.string(),
-    views: z.number(),
-    comments: z.number(),
+    // views: z.number(),
+    // comments: z.number(),
   }),
 });
 
