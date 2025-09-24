@@ -38,7 +38,7 @@ export const headers = [
     id: "2",
     lang: "es",
     content: "Datos",
-    url: "/es/data-proyectos",
+    url: "/es/data-projects",
   },
   {
     id: "3",
