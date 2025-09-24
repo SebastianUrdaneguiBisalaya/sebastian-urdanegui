@@ -40,20 +40,20 @@ const { Content } = await render(entry);
 
 let comments: Comment[] = [];
 
-try {
-  const responseComments = await fetch(`${baseUrl}/api/comments?id=${id}`);
-  if (!responseComments.ok) {
-    throw new Error(
-      `Ocurrió un error al obtener los datos: ${responseComments.statusText}`
-    );
-  }
-  comments = await responseComments.json();
-} catch (error: unknown) {
-  console.error(error);
-  return Astro.redirect("/404");
-}
+// try {
+//   const responseComments = await fetch(`${baseUrl}/api/comments?id=${id}`);
+//   if (!responseComments.ok) {
+//     throw new Error(
+//       `Ocurrió un error al obtener los datos: ${responseComments.statusText}`
+//     );
+//   }
+//   comments = await responseComments.json();
+// } catch (error: unknown) {
+//   console.error(error);
+//   return Astro.redirect("/404");
+// }
 
-export const prerender = false;
+// export const prerender = false;
 ---
 
 <Layout id={id}>
