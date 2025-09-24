@@ -1,26 +1,12 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import DetailComments from "@components/detail-comments.astro";
 import { getEntry, render } from "astro:content";
-import { baseUrl } from "@constants/data";
 
 interface Comment {
   id: string;
   user_name?: string;
   comment: string;
 }
-
-// export async function getStaticPaths() {
-//   const blogs = await getCollection("englishBlog");
-//   return blogs.map((blog) => ({
-//     params: {
-//       id: blog.id,
-//     },
-//     props: {
-//       entry: blog,
-//     },
-//   }));
-// }
 
 const { id } = Astro.params;
 
@@ -37,23 +23,6 @@ if (!entry) {
 }
 
 const { Content } = await render(entry);
-
-let comments: Comment[] = [];
-
-// try {
-//   const responseComments = await fetch(`${baseUrl}/api/comments?id=${id}`);
-//   if (!responseComments.ok) {
-//     throw new Error(
-//       `Ocurrió un error al obtener los datos: ${responseComments.statusText}`
-//     );
-//   }
-//   comments = await responseComments.json();
-// } catch (error: unknown) {
-//   console.error(error);
-//   return Astro.redirect("/404");
-// }
-
-// export const prerender = false;
 ---
 
 <Layout id={id}>
@@ -144,34 +113,12 @@ let comments: Comment[] = [];
         class="my-4 p-3 text-sm text-center prose dark:prose-invert border border-gray-400 w-fit rounded-lg hidden"
       >
       </div>
-      {
-        comments?.length > 0 && (
-          <h3 class="font-reddit prose dark:prose-invert w-full">Comments</h3>
-        )
-      }
-      {
-        comments?.map((comment: Comment) => {
-          return (
-            <DetailComments
-              user_name={comment.user_name}
-              comment={comment.comment}
-            />
-          );
-        })
-      }
     </div>
   </article>
 </Layout>
 
 <script>
   const contentId = document.getElementsByTagName("article")[0].id;
-  const postForm = document.getElementById(
-    "comment-form"
-  ) as HTMLFormElement | null;
-  const commentResponse = document.getElementById(
-    "comment-response"
-  ) as HTMLDivElement | null;
-
   if (contentId) {
     fetch("/api/projects", {
       method: "PATCH",
@@ -185,58 +132,4 @@ let comments: Comment[] = [];
       console.error("Error al actualizar la cantidad de vistas:", error)
     );
   }
-
-  function showMessage(message: string) {
-    if (commentResponse) {
-      postForm?.reset();
-      postForm?.classList.add("hidden");
-      commentResponse.textContent = message;
-      commentResponse.classList.remove("hidden");
-    }
-  }
-
-  postForm?.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const userNameInput = document.getElementById(
-      "user-name"
-    ) as HTMLInputElement | null;
-    const commentInput = document.getElementById(
-      "comment"
-    ) as HTMLTextAreaElement | null;
-
-    if (!userNameInput || !commentInput || !contentId) {
-      return;
-    }
-
-    const userName = userNameInput.value ?? "";
-    const comment = commentInput.value ?? "";
-
-    if (!userName.trim() || !comment.trim()) {
-      return;
-    }
-
-    const postData = {
-      id: contentId,
-      user_name: userName,
-      comment: comment,
-    };
-
-    try {
-      const response = await fetch(`/api/comments`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
-      if (!response.ok) {
-        throw new Error(
-          `Ocurrió un error al publicar el comentario: ${response.statusText}`
-        );
-      }
-      showMessage("✅ ¡Tu comentario ha sido publicado!");
-    } catch (error: unknown) {
-      showMessage("❌ ¡Ocurrió un error al publicar el comentario!");
-    }
-  });
 </script>
