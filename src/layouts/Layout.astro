@@ -237,7 +237,7 @@ import Navbar from "@components/navbar.tsx";
             </a>
           </div>
         </div>
-        <Navbar lang={lang ?? ""} />
+        <Navbar lang={lang ?? ""} client:idle />
       </header>
       <slot />
       <Footer lang={lang ?? ""} />
