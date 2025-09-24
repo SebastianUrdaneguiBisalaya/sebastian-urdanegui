@@ -24,13 +24,21 @@ export async function getStaticPaths() {
 
 const blog = Astro.props;
 
+console.log("blog", blog);
+
 const { entry } = blog;
 
+console.log("entry", entry);
+
 const { id } = Astro.params;
+
+console.log("id", id);
 
 if (!entry.id) {
   return Astro.redirect("/404");
 }
+
+console.log("Next");
 
 const { Content } = await render(entry);
 
@@ -39,6 +47,7 @@ let comments: Comment[] = [];
 try {
   const responseComments = await fetch(`${baseUrl}/api/comments?id=${id}`);
   if (!responseComments.ok) {
+    console.log("response comments error", responseComments);
     throw new Error(
       `Ocurrió un error al obtener los datos: ${responseComments.statusText}`
     );
