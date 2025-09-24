@@ -1,7 +1,7 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import DetailComments from "@components/detail-comments.astro";
-import { getEntry, render } from "astro:content";
+import { getCollection, render } from "astro:content";
 import { baseUrl } from "@constants/data";
 
 interface Comment {
@@ -10,15 +10,25 @@ interface Comment {
   comment: string;
 }
 
-const { id } = Astro.params;
-
-if (!id) {
-  return Astro.redirect("/404");
+export async function getStaticPaths() {
+  const blogs = await getCollection("englishBlog");
+  return blogs.map((blog) => ({
+    params: {
+      id: blog.id,
+    },
+    props: {
+      entry: blog,
+    },
+  }));
 }
 
-const entry = await getEntry("spanishBlog", id);
+const blog = Astro.props;
 
-if (!entry) {
+const { entry } = blog;
+
+const { id } = Astro.params;
+
+if (!entry.id) {
   return Astro.redirect("/404");
 }
 
@@ -38,13 +48,15 @@ try {
   console.error(error);
   return Astro.redirect("/404");
 }
+
+export const prerender = true;
 ---
 
 <Layout id={id}>
   <article id={id} class="w-full flex flex-col gap-4">
     <div class="flex flex-row items-center justify-between w-full gap-4">
       <p class="font-reddit text-dark/60 dark:text-gray-300 text-xs w-full">
-        {`Fecha de actualización: ${entry.data.publishDate}`}
+        {`Update date: ${entry.data.publishDate}`}
       </p>
       <!-- <div class="flex flex-row items-center gap-4 w-fit">
         <div class="flex flex-row items-center gap-2">
@@ -98,29 +110,29 @@ try {
           class="font-sora prose dark:prose-invert text-sm w-full"
           for="user-name"
         >
-          Nombre de usuario
+          User name
         </label>
         <input
           id="user-name"
           class="w-full prose dark:prose-invert font-reddit focus:ring-0 focus:border-0 focus:outline-none border-b-[0.5px] border-gray-500"
           type="text"
-          placeholder="Escribe tu nombre"
+          placeholder="Write your name"
         />
         <label
           class="font-sora prose dark:prose-invert text-sm w-full"
           for="comment"
         >
-          Comentario
+          Comment
         </label>
         <textarea
           class="w-full prose dark:prose-invert font-reddit focus:ring-0 focus:border-0 focus:outline-none border-b-[0.5px] border-gray-500"
           id="comment"
-          placeholder="Escribe tu comentario"></textarea>
+          placeholder="Write your comment"></textarea>
         <button
           class="w-fit bg-dark/90 dark:bg-gray-200 prose-invert dark:prose font-reddit rounded-lg py-2 px-4 hover:bg-dark/90 dark:hover:bg-gray-100 cursor-pointer"
           type="submit"
         >
-          Publicar comentario
+          Post comment
         </button>
       </form>
       <div
@@ -130,9 +142,7 @@ try {
       </div>
       {
         comments?.length > 0 && (
-          <h3 class="font-reddit prose dark:prose-invert w-full">
-            Comentarios
-          </h3>
+          <h3 class="font-reddit prose dark:prose-invert w-full">Comments</h3>
         )
       }
       {
