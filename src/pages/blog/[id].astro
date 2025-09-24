@@ -88,9 +88,9 @@ try {
         </div>
       </div> -->
     </div>
-    <article class="prose dark:prose-invert max-w-full">
+    <div class="prose dark:prose-invert max-w-full">
       <Content />
-    </article>
+    </div>
     <div class="flex flex-col gap-4">
       <form id="comment-form" class="flex flex-col gap-2 w-full mb-4">
         <label
@@ -116,7 +116,7 @@ try {
           id="comment"
           placeholder="Write your comment"></textarea>
         <button
-          class="w-fit bg-dark/90 dark:bg-gray-200 prose dark:prose-invert font-reddit rounded-lg py-2 px-4 hover:bg-dark/90 dark:hover:bg-gray-100 cursor-pointer"
+          class="w-fit bg-dark/90 dark:bg-gray-200 prose-invert dark:prose font-reddit rounded-lg py-2 px-4 hover:bg-dark/90 dark:hover:bg-gray-100 cursor-pointer"
           type="submit"
         >
           Post comment
@@ -124,7 +124,7 @@ try {
       </form>
       <div
         id="comment-response"
-        class="my-4 p-3 text-sm text-center text-dark/80 dark:text-gray-300 border border-gray-400 w-fit rounded-lg hidden"
+        class="my-4 p-3 text-sm text-center prose dark:prose-invert border border-gray-400 w-fit rounded-lg hidden"
       >
       </div>
       {
